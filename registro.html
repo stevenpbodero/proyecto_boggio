@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Registro de usuario - Sistema de Inventario">
+    <title>Registro - InventarioPRO</title>
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main class="login-container">
+        <section class="login-card" aria-labelledby="register-title">
+            <header class="logo">
+                <h1 id="register-title">📦 Crear Cuenta</h1>
+                <p>Registro de nuevo usuario</p>
+            </header>
+            
+            <article class="login-content">
+                <form id="registerForm" class="login-form">
+                    <fieldset>
+                        <legend class="visually-hidden">Información de registro</legend>
+                        
+                        <div class="form-group">
+                            <label for="regName">Nombre completo *</label>
+                            <input type="text" id="regName" name="name" required aria-required="true" autocomplete="name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="regUsername">Usuario *</label>
+                            <input type="text" id="regUsername" name="username" required aria-required="true" autocomplete="username">
+                            <small class="form-help">Mínimo 3 caracteres</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="regEmail">Email *</label>
+                            <input type="email" id="regEmail" name="email" required aria-required="true" autocomplete="email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="regPassword">Contraseña *</label>
+                            <input type="password" id="regPassword" name="password" required aria-required="true" autocomplete="new-password">
+                            <small class="form-help">Mínimo 6 caracteres</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="regConfirmPassword">Confirmar Contraseña *</label>
+                            <input type="password" id="regConfirmPassword" name="confirmPassword" required aria-required="true" autocomplete="new-password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="regRole">Tipo de usuario</label>
+                            <select id="regRole" name="role" aria-describedby="roleHelp">
+                                <option value="user">Usuario Normal</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                            <small id="roleHelp" class="form-help">Los administradores tienen acceso completo al sistema</small>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary btn-block">Crear Cuenta</button>
+                    </fieldset>
+                </form>
+                
+                <div class="auth-links">
+                    <p>¿Ya tienes una cuenta? <a href="index.html" class="auth-link">Inicia sesión aquí</a></p>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

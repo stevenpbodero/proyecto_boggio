@@ -11,133 +11,47 @@ class InventoryApp {
 
     // Inicializar aplicación
     async init() {
-        await this.loadData();
-        this.setupDashboard();
-        this.setupEventListeners();
+        try {
+            // Verificar autenticación
+            if (!authSystem || !authSystem.getCurrentUser()) {
+                console.warn('Usuario no autenticado, redirigiendo...');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            await this.loadData();
+            this.setupDashboard();
+            this.setupEventListeners();
+            console.log('Dashboard inicializado correctamente para:', authSystem.getCurrentUser().name);
+        } catch (error) {
+            console.error('Error inicializando dashboard:', error);
+            Utils.showNotification('Error al cargar el dashboard', 'danger');
+        }
     }
 
     // Cargar datos
     async loadData() {
         try {
-            this.products = Utils.loadFromStorage('inventory_products') || [];
-            this.movements = Utils.loadFromStorage('inventory_movements') || [];
-            this.categories = Utils.loadFromStorage('inventory_categories') || [];
-            this.suppliers = Utils.loadFromStorage('inventory_suppliers') || [];
+            this.products = Utils.loadFromStorage('inventory_products');
+            this.movements = Utils.loadFromStorage('inventory_movements');
+            this.categories = Utils.loadFromStorage('inventory_categories');
+            this.suppliers = Utils.loadFromStorage('inventory_suppliers');
 
-            // Datos de ejemplo si no hay datos
-            if (this.products.length === 0) {
-                await this.loadSampleData();
-            }
+            console.log('Datos cargados:', {
+                products: this.products.length,
+                movements: this.movements.length,
+                categories: this.categories.length,
+                suppliers: this.suppliers.length
+            });
+
         } catch (error) {
             console.error('Error loading data:', error);
-            Utils.showNotification('Error al cargar los datos', 'danger');
+            // Inicializar arrays vacíos en caso de error
+            this.products = [];
+            this.movements = [];
+            this.categories = [];
+            this.suppliers = [];
         }
-    }
-
-    // Cargar datos de ejemplo
-    async loadSampleData() {
-        // Categorías de ejemplo
-        this.categories = [
-            { id: 'cat1', name: 'Electrónicos', description: 'Productos electrónicos' },
-            { id: 'cat2', name: 'Ropa', description: 'Prendas de vestir' },
-            { id: 'cat3', name: 'Hogar', description: 'Artículos para el hogar' },
-            { id: 'cat4', name: 'Deportes', description: 'Artículos deportivos' }
-        ];
-
-        // Proveedores de ejemplo
-        this.suppliers = [
-            { 
-                id: 'sup1', 
-                name: 'TecnoSupply S.A.', 
-                contact: 'Juan Pérez',
-                email: 'juan@tecnosupply.com',
-                phone: '+1234567890',
-                address: 'Av. Tecnología 123'
-            },
-            { 
-                id: 'sup2', 
-                name: 'ModaExpress', 
-                contact: 'María García',
-                email: 'maria@modaexpress.com',
-                phone: '+0987654321',
-                address: 'Calle Moda 456'
-            }
-        ];
-
-        // Productos de ejemplo
-        this.products = [
-            {
-                id: 'prod1',
-                code: 'PROD001',
-                name: 'Laptop Gamer',
-                category: 'cat1',
-                supplier: 'sup1',
-                purchasePrice: 800,
-                salePrice: 1200,
-                currentStock: 15,
-                minStock: 5,
-                description: 'Laptop para gaming de alta gama'
-            },
-            {
-                id: 'prod2',
-                code: 'PROD002',
-                name: 'Smartphone Android',
-                category: 'cat1',
-                supplier: 'sup1',
-                purchasePrice: 300,
-                salePrice: 450,
-                currentStock: 3,
-                minStock: 10,
-                description: 'Teléfono inteligente Android'
-            },
-            {
-                id: 'prod3',
-                code: 'PROD003',
-                name: 'Camiseta Deportiva',
-                category: 'cat2',
-                supplier: 'sup2',
-                purchasePrice: 15,
-                salePrice: 25,
-                currentStock: 50,
-                minStock: 20,
-                description: 'Camiseta para actividades deportivas'
-            }
-        ];
-
-        // Movimientos de ejemplo
-        this.movements = [
-            {
-                id: 'mov1',
-                productId: 'prod1',
-                type: 'entrada',
-                quantity: 20,
-                reason: 'compra',
-                date: new Date().toISOString(),
-                userId: '1',
-                notes: 'Compra inicial'
-            },
-            {
-                id: 'mov2',
-                productId: 'prod1',
-                type: 'salida',
-                quantity: 5,
-                reason: 'venta',
-                date: new Date(Date.now() - 86400000).toISOString(),
-                userId: '1',
-                notes: 'Venta a cliente'
-            }
-        ];
-
-        // Guardar datos
-        this.saveAllData();
-    }
-
-    // Guardar todos los datos
-    saveAllData() {
-        Utils.saveToStorage('inventory_products', this.products);
-        Utils.saveToStorage('inventory_movements', this.movements);
-        Utils.saveToStorage('inventory_categories', this.categories);
-        Utils.saveToStorage('inventory_suppliers', this.suppliers);
     }
 
     // Configurar dashboard
@@ -145,6 +59,22 @@ class InventoryApp {
         this.updateStats();
         this.updateRecentActivity();
         this.updateLowStockAlerts();
+        this.updateUserInfo();
+    }
+
+    // Actualizar información del usuario
+    updateUserInfo() {
+        const currentUser = authSystem.getCurrentUser();
+        if (currentUser) {
+            const userElement = document.getElementById('currentUser');
+            const roleElement = document.getElementById('userRole');
+            
+            if (userElement) userElement.textContent = currentUser.name;
+            if (roleElement) {
+                roleElement.textContent = currentUser.role === 'admin' ? 'Administrador' : 'Usuario';
+                roleElement.className = `user-role ${currentUser.role === 'admin' ? 'admin-role' : 'user-role'}`;
+            }
+        }
     }
 
     // Actualizar estadísticas
@@ -153,11 +83,18 @@ class InventoryApp {
             const totalProducts = this.products.length;
             const lowStockProducts = this.products.filter(p => p.currentStock <= p.minStock && p.currentStock > 0).length;
             const outOfStockProducts = this.products.filter(p => p.currentStock === 0).length;
+            
+            // Movimientos de hoy
+            const today = new Date().toDateString();
             const todayMovements = this.movements.filter(m => {
-                const movementDate = new Date(m.date).toDateString();
-                const today = new Date().toDateString();
-                return movementDate === today;
+                try {
+                    const movementDate = new Date(m.date).toDateString();
+                    return movementDate === today;
+                } catch (e) {
+                    return false;
+                }
             }).length;
+
             const totalSuppliers = this.suppliers.length;
 
             // Actualizar elementos del DOM
@@ -165,6 +102,7 @@ class InventoryApp {
             this.updateElementText('lowStockProducts', lowStockProducts + outOfStockProducts);
             this.updateElementText('todayMovements', todayMovements);
             this.updateElementText('totalSuppliers', totalSuppliers);
+
         } catch (error) {
             console.error('Error updating stats:', error);
         }
@@ -175,17 +113,28 @@ class InventoryApp {
         const element = document.getElementById(elementId);
         if (element) {
             element.textContent = value;
+        } else {
+            console.warn(`Elemento no encontrado: ${elementId}`);
         }
     }
 
     // Actualizar actividad reciente
     updateRecentActivity() {
         const recentActivity = document.getElementById('recentActivity');
-        if (!recentActivity) return;
+        if (!recentActivity) {
+            console.warn('Elemento recentActivity no encontrado');
+            return;
+        }
 
         try {
             const recentMovements = this.movements
-                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .sort((a, b) => {
+                    try {
+                        return new Date(b.date) - new Date(a.date);
+                    } catch (e) {
+                        return 0;
+                    }
+                })
                 .slice(0, 5);
 
             if (recentMovements.length === 0) {
@@ -193,6 +142,7 @@ class InventoryApp {
                     <div class="empty-state">
                         <div class="icon">📊</div>
                         <p>No hay actividad reciente</p>
+                        <small>Los movimientos aparecerán aquí</small>
                     </div>
                 `;
                 return;
@@ -202,25 +152,34 @@ class InventoryApp {
                 const product = this.products.find(p => p.id === movement.productId);
                 const movementType = movement.type === 'entrada' ? '📥 Entrada' : '📤 Salida';
                 const movementClass = movement.type === 'entrada' ? 'text-success' : 'text-danger';
+                const productName = product ? Utils.escapeHtml(product.name) : 'Producto no encontrado';
                 
                 return `
                     <div class="activity-item">
                         <div class="activity-type ${movementClass}">${movementType}</div>
-                        <div class="activity-details">${Utils.escapeHtml(product?.name || 'Producto no encontrado')} - ${movement.quantity} unidades</div>
+                        <div class="activity-details">${productName} - ${movement.quantity} unidades</div>
                         <div class="activity-time">${Utils.formatDate(movement.date)}</div>
                     </div>
                 `;
             }).join('');
         } catch (error) {
             console.error('Error updating recent activity:', error);
-            recentActivity.innerHTML = '<p>Error al cargar la actividad reciente</p>';
+            recentActivity.innerHTML = `
+                <div class="empty-state">
+                    <div class="icon">⚠️</div>
+                    <p>Error al cargar la actividad</p>
+                </div>
+            `;
         }
     }
 
     // Actualizar alertas de stock bajo
     updateLowStockAlerts() {
         const lowStockAlerts = document.getElementById('lowStockAlerts');
-        if (!lowStockAlerts) return;
+        if (!lowStockAlerts) {
+            console.warn('Elemento lowStockAlerts no encontrado');
+            return;
+        }
 
         try {
             const lowStockProducts = this.products.filter(p => p.currentStock <= p.minStock);
@@ -230,6 +189,7 @@ class InventoryApp {
                     <div class="empty-state">
                         <div class="icon">✅</div>
                         <p>No hay alertas de stock bajo</p>
+                        <small>Todo está en orden</small>
                     </div>
                 `;
                 return;
@@ -254,25 +214,46 @@ class InventoryApp {
             }).join('');
         } catch (error) {
             console.error('Error updating low stock alerts:', error);
-            lowStockAlerts.innerHTML = '<p>Error al cargar las alertas</p>';
+            lowStockAlerts.innerHTML = `
+                <div class="empty-state">
+                    <div class="icon">⚠️</div>
+                    <p>Error al cargar las alertas</p>
+                </div>
+            `;
         }
     }
 
     // Configurar event listeners
     setupEventListeners() {
-        // Event listeners generales de la aplicación
+        // Escuchar eventos de actualización de datos
         document.addEventListener('dataUpdated', () => {
+            console.log('Evento dataUpdated recibido, actualizando dashboard...');
+            this.loadData().then(() => {
+                this.setupDashboard();
+                Utils.showNotification('Datos actualizados', 'success');
+            });
+        });
+
+        // Actualizar cada 30 segundos
+        setInterval(() => {
             this.loadData().then(() => {
                 this.setupDashboard();
             });
-        });
+        }, 30000);
     }
 }
 
 // Inicializar aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
-    if (window.location.pathname.includes('dashboard.html') || 
-        window.location.pathname.endsWith('/')) {
-        new InventoryApp();
+    console.log('DOM cargado, inicializando InventoryApp...');
+    
+    // Verificar si estamos en dashboard
+    const isDashboard = window.location.pathname.includes('dashboard.html') || 
+                       window.location.pathname.endsWith('/') ||
+                       window.location.pathname === '';
+    
+    if (isDashboard) {
+        console.log('Inicializando dashboard...');
+        window.inventoryApp = new InventoryApp();
     }
 });
