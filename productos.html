@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gestión de productos del inventario">
+    <title>Gestión de Productos - InventarioPRO</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar" aria-label="Navegación principal">
+            <header class="sidebar-header">
+                <h2>📦 InventarioPRO</h2>
+                <p id="currentUser">Administrador</p>
+            </header>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html">🏠 Dashboard</a></li>
+                <li class="active"><a href="productos.html" aria-current="page">📋 Productos</a></li>
+                <li><a href="categorias.html">🏷️ Categorías</a></li>
+                <li><a href="movimientos.html">🔄 Movimientos</a></li>
+                <li><a href="proveedores.html">👥 Proveedores</a></li>
+                <li><a href="reportes.html">📊 Reportes</a></li>
+                <li><a href="#" id="logoutBtn">🚪 Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Gestión de Productos</h1>
+                <button class="btn-primary" onclick="productManager.openProductModal()">➕ Nuevo Producto</button>
+            </header>
+
+            <!-- Filtros Section -->
+            <section class="filters-section" aria-labelledby="filters-title">
+                <h2 id="filters-title" class="visually-hidden">Filtros de búsqueda</h2>
+                
+                <div class="filters-container">
+                    <input type="text" id="searchProduct" placeholder="Buscar productos..." class="search-input" aria-label="Buscar productos">
+                    <select id="categoryFilter" class="filter-select" aria-label="Filtrar por categoría">
+                        <option value="">Todas las categorías</option>
+                    </select>
+                    <select id="stockFilter" class="filter-select" aria-label="Filtrar por estado de stock">
+                        <option value="">Todo el stock</option>
+                        <option value="low">Stock Bajo</option>
+                        <option value="out">Sin Stock</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Products Table Section -->
+            <section class="table-section" aria-labelledby="products-title">
+                <h2 id="products-title" class="visually-hidden">Lista de productos</h2>
+                
+                <div class="table-container">
+                    <table id="productsTable" class="data-table" aria-describedby="products-description">
+                        <caption id="products-description" class="visually-hidden">
+                            Tabla que muestra todos los productos del inventario con información detallada de cada uno
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Código</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Categoría</th>
+                                <th scope="col">Precio Compra</th>
+                                <th scope="col">Precio Venta</th>
+                                <th scope="col">Stock</th>
+                                <th scope="col">Stock Mínimo</th>
+                                <th scope="col">
+                                    <span class="visually-hidden">Acciones</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody">
+                            <!-- Los productos se cargarán con JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para Producto -->
+    <dialog id="productModal" class="modal" aria-labelledby="productModalTitle">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h3 id="productModalTitle">Nuevo Producto</h3>
+                <button class="close" onclick="productManager.closeProductModal()" aria-label="Cerrar modal">
+                    &times;
+                </button>
+            </header>
+            
+            <form id="productForm" class="modal-form">
+                <input type="hidden" id="productId">
+                
+                <fieldset>
+                    <legend class="visually-hidden">Información del producto</legend>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productCode">Código *</label>
+                            <input type="text" id="productCode" required aria-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="productName">Nombre *</label>
+                            <input type="text" id="productName" required aria-required="true">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productCategory">Categoría *</label>
+                            <select id="productCategory" required aria-required="true">
+                                <option value="">Seleccionar categoría</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="productSupplier">Proveedor</label>
+                            <select id="productSupplier">
+                                <option value="">Seleccionar proveedor</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="purchasePrice">Precio Compra *</label>
+                            <input type="number" id="purchasePrice" step="0.01" required aria-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="salePrice">Precio Venta *</label>
+                            <input type="number" id="salePrice" step="0.01" required aria-required="true">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="currentStock">Stock Actual *</label>
+                            <input type="number" id="currentStock" required aria-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="minStock">Stock Mínimo *</label>
+                            <input type="number" id="minStock" required aria-required="true">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productDescription">Descripción</label>
+                        <textarea id="productDescription" rows="3"></textarea>
+                    </div>
+                </fieldset>
+                
+                <footer class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="productManager.closeProductModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar Producto</button>
+                </footer>
+            </form>
+        </div>
+    </dialog>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/productos.js"></script>
+</body>
+</html>

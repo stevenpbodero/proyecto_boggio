@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gestión de categorías de productos">
+    <title>Gestión de Categorías - InventarioPRO</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar" aria-label="Navegación principal">
+            <header class="sidebar-header">
+                <h2>📦 InventarioPRO</h2>
+                <p id="currentUser">Administrador</p>
+            </header>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html">🏠 Dashboard</a></li>
+                <li><a href="productos.html">📋 Productos</a></li>
+                <li class="active"><a href="categorias.html" aria-current="page">🏷️ Categorías</a></li>
+                <li><a href="movimientos.html">🔄 Movimientos</a></li>
+                <li><a href="proveedores.html">👥 Proveedores</a></li>
+                <li><a href="reportes.html">📊 Reportes</a></li>
+                <li><a href="#" id="logoutBtn">🚪 Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Gestión de Categorías</h1>
+                <button class="btn-primary" onclick="categoryManager.openCategoryModal()">➕ Nueva Categoría</button>
+            </header>
+
+            <!-- Filtros Section -->
+            <section class="filters-section" aria-labelledby="categories-filters-title">
+                <h2 id="categories-filters-title" class="visually-hidden">Filtros de categorías</h2>
+                <input type="text" id="searchCategory" placeholder="Buscar categorías..." class="search-input" aria-label="Buscar categorías">
+            </section>
+
+            <!-- Categories Table Section -->
+            <section class="table-section" aria-labelledby="categories-title">
+                <h2 id="categories-title" class="visually-hidden">Lista de categorías</h2>
+                
+                <div class="table-container">
+                    <table id="categoriesTable" class="data-table" aria-describedby="categories-description">
+                        <caption id="categories-description" class="visually-hidden">
+                            Tabla que muestra todas las categorías de productos con la cantidad de productos en cada una
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Productos</th>
+                                <th scope="col">
+                                    <span class="visually-hidden">Acciones</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="categoriesTableBody">
+                            <!-- Las categorías se cargarán con JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para Categoría -->
+    <dialog id="categoryModal" class="modal" aria-labelledby="categoryModalTitle">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h3 id="categoryModalTitle">Nueva Categoría</h3>
+                <button class="close" onclick="categoryManager.closeCategoryModal()" aria-label="Cerrar modal">
+                    &times;
+                </button>
+            </header>
+            
+            <form id="categoryForm" class="modal-form">
+                <input type="hidden" id="categoryId">
+                
+                <fieldset>
+                    <legend class="visually-hidden">Información de la categoría</legend>
+                    
+                    <div class="form-group">
+                        <label for="categoryName">Nombre *</label>
+                        <input type="text" id="categoryName" required aria-required="true">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="categoryDescription">Descripción</label>
+                        <textarea id="categoryDescription" rows="3"></textarea>
+                    </div>
+                </fieldset>
+                
+                <footer class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="categoryManager.closeCategoryModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar Categoría</button>
+                </footer>
+            </form>
+        </div>
+    </dialog>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/categorias.js"></script>
+</body>
+</html>
