@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gestión de proveedores del inventario">
+    <title>Gestión de Proveedores - InventarioPRO</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar" aria-label="Navegación principal">
+            <header class="sidebar-header">
+                <h2>📦 InventarioPRO</h2>
+                <p id="currentUser">Administrador</p>
+            </header>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html">🏠 Dashboard</a></li>
+                <li><a href="productos.html">📋 Productos</a></li>
+                <li><a href="categorias.html">🏷️ Categorías</a></li>
+                <li><a href="movimientos.html">🔄 Movimientos</a></li>
+                <li class="active"><a href="proveedores.html" aria-current="page">👥 Proveedores</a></li>
+                <li><a href="reportes.html">📊 Reportes</a></li>
+                <li><a href="#" id="logoutBtn">🚪 Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Gestión de Proveedores</h1>
+                <button class="btn-primary" onclick="supplierManager.openSupplierModal()">➕ Nuevo Proveedor</button>
+            </header>
+
+            <!-- Filtros Section -->
+            <section class="filters-section" aria-labelledby="suppliers-filters-title">
+                <h2 id="suppliers-filters-title" class="visually-hidden">Filtros de proveedores</h2>
+                <input type="text" id="searchSupplier" placeholder="Buscar proveedores..." class="search-input" aria-label="Buscar proveedores">
+            </section>
+
+            <!-- Suppliers Table Section -->
+            <section class="table-section" aria-labelledby="suppliers-title">
+                <h2 id="suppliers-title" class="visually-hidden">Lista de proveedores</h2>
+                
+                <div class="table-container">
+                    <table id="suppliersTable" class="data-table" aria-describedby="suppliers-description">
+                        <caption id="suppliers-description" class="visually-hidden">
+                            Tabla que muestra todos los proveedores con su información de contacto
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Contacto</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Teléfono</th>
+                                <th scope="col">Productos</th>
+                                <th scope="col">
+                                    <span class="visually-hidden">Acciones</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="suppliersTableBody">
+                            <!-- Los proveedores se cargarán con JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para Proveedor -->
+    <dialog id="supplierModal" class="modal" aria-labelledby="supplierModalTitle">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h3 id="supplierModalTitle">Nuevo Proveedor</h3>
+                <button class="close" onclick="supplierManager.closeSupplierModal()" aria-label="Cerrar modal">
+                    &times;
+                </button>
+            </header>
+            
+            <form id="supplierForm" class="modal-form">
+                <input type="hidden" id="supplierId">
+                
+                <fieldset>
+                    <legend class="visually-hidden">Información del proveedor</legend>
+                    
+                    <div class="form-group">
+                        <label for="supplierName">Nombre *</label>
+                        <input type="text" id="supplierName" required aria-required="true">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="supplierContact">Contacto *</label>
+                        <input type="text" id="supplierContact" required aria-required="true">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="supplierEmail">Email</label>
+                            <input type="email" id="supplierEmail">
+                        </div>
+                        <div class="form-group">
+                            <label for="supplierPhone">Teléfono</label>
+                            <input type="tel" id="supplierPhone">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="supplierAddress">Dirección</label>
+                        <textarea id="supplierAddress" rows="3"></textarea>
+                    </div>
+                </fieldset>
+                
+                <footer class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="supplierManager.closeSupplierModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar Proveedor</button>
+                </footer>
+            </form>
+        </div>
+    </dialog>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/proveedores.js"></script>
+</body>
+</html>

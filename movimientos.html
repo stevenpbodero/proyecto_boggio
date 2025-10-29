@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Historial de movimientos de inventario">
+    <title>Movimientos de Inventario - InventarioPRO</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar" aria-label="Navegación principal">
+            <header class="sidebar-header">
+                <h2>📦 InventarioPRO</h2>
+                <p id="currentUser">Administrador</p>
+            </header>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html">🏠 Dashboard</a></li>
+                <li><a href="productos.html">📋 Productos</a></li>
+                <li><a href="categorias.html">🏷️ Categorías</a></li>
+                <li class="active"><a href="movimientos.html" aria-current="page">🔄 Movimientos</a></li>
+                <li><a href="proveedores.html">👥 Proveedores</a></li>
+                <li><a href="reportes.html">📊 Reportes</a></li>
+                <li><a href="#" id="logoutBtn">🚪 Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Movimientos de Inventario</h1>
+                <button class="btn-primary" onclick="movementManager.openMovementModal()">➕ Nuevo Movimiento</button>
+            </header>
+
+            <!-- Filtros Section -->
+            <section class="filters-section" aria-labelledby="movements-filters-title">
+                <h2 id="movements-filters-title" class="visually-hidden">Filtros de movimientos</h2>
+                
+                <div class="filters-container">
+                    <select id="dateFilter" class="filter-select" aria-label="Filtrar por fecha">
+                        <option value="">Todas las fechas</option>
+                        <option value="today">Hoy</option>
+                    </select>
+                    <select id="typeFilter" class="filter-select" aria-label="Filtrar por tipo">
+                        <option value="">Todos los tipos</option>
+                        <option value="entrada">Entradas</option>
+                        <option value="salida">Salidas</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Movements Table Section -->
+            <section class="table-section" aria-labelledby="movements-title">
+                <h2 id="movements-title" class="visually-hidden">Historial de movimientos</h2>
+                
+                <div class="table-container">
+                    <table id="movementsTable" class="data-table" aria-describedby="movements-description">
+                        <caption id="movements-description" class="visually-hidden">
+                            Tabla que muestra el historial completo de movimientos de inventario
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Motivo</th>
+                                <th scope="col">Notas</th>
+                                <th scope="col">
+                                    <span class="visually-hidden">Acciones</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="movementsTableBody">
+                            <!-- Los movimientos se cargarán con JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para Movimiento -->
+    <dialog id="movementModal" class="modal" aria-labelledby="movementModalTitle">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h3 id="movementModalTitle">Nuevo Movimiento</h3>
+                <button class="close" onclick="movementManager.closeMovementModal()" aria-label="Cerrar modal">
+                    &times;
+                </button>
+            </header>
+            
+            <form id="movementForm" class="modal-form">
+                <fieldset>
+                    <legend class="visually-hidden">Información del movimiento</legend>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="movementProduct">Producto *</label>
+                            <select id="movementProduct" required aria-required="true">
+                                <option value="">Seleccionar producto</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="movementType">Tipo *</label>
+                            <select id="movementType" required aria-required="true">
+                                <option value="">Seleccionar tipo</option>
+                                <option value="entrada">Entrada</option>
+                                <option value="salida">Salida</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="movementQuantity">Cantidad *</label>
+                            <input type="number" id="movementQuantity" required aria-required="true" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="movementReason">Motivo *</label>
+                            <select id="movementReason" required aria-required="true">
+                                <option value="">Seleccionar motivo</option>
+                                <option value="compra">Compra</option>
+                                <option value="venta">Venta</option>
+                                <option value="ajuste">Ajuste</option>
+                                <option value="daño">Daño</option>
+                                <option value="caducidad">Caducidad</option>
+                                <option value="devolucion">Devolución</option>
+                                <option value="otros">Otros</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="movementNotes">Notas</label>
+                        <textarea id="movementNotes" rows="3" placeholder="Observaciones adicionales..."></textarea>
+                    </div>
+                </fieldset>
+                
+                <footer class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="movementManager.closeMovementModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Registrar Movimiento</button>
+                </footer>
+            </form>
+        </div>
+    </dialog>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/movimientos.js"></script>
+</body>
+</html>

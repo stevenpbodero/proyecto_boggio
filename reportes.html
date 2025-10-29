@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Reportes y estadísticas del inventario">
+    <title>Reportes del Sistema - InventarioPRO</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar" aria-label="Navegación principal">
+            <header class="sidebar-header">
+                <h2>📦 InventarioPRO</h2>
+                <p id="currentUser">Administrador</p>
+            </header>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html">🏠 Dashboard</a></li>
+                <li><a href="productos.html">📋 Productos</a></li>
+                <li><a href="categorias.html">🏷️ Categorías</a></li>
+                <li><a href="movimientos.html">🔄 Movimientos</a></li>
+                <li><a href="proveedores.html">👥 Proveedores</a></li>
+                <li class="active"><a href="reportes.html" aria-current="page">📊 Reportes</a></li>
+                <li><a href="#" id="logoutBtn">🚪 Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Reportes y Estadísticas</h1>
+                <div class="header-actions">
+                    <button class="btn-secondary" id="refreshReports">🔄 Actualizar</button>
+                    <button class="btn-primary" id="exportReports">📥 Exportar</button>
+                </div>
+            </header>
+
+            <!-- Stock Report Section -->
+            <section class="report-section" aria-labelledby="stock-report-title">
+                <header class="section-header">
+                    <h2 id="stock-report-title">Reporte de Stock General</h2>
+                </header>
+                <div class="report-content" id="stockReport">
+                    <!-- El reporte de stock se cargará con JavaScript -->
+                </div>
+            </section>
+
+            <!-- Movements Report Section -->
+            <section class="report-section" aria-labelledby="movements-report-title">
+                <header class="section-header">
+                    <h2 id="movements-report-title">Reporte de Movimientos del Día</h2>
+                </header>
+                <div class="report-content" id="movementReport">
+                    <!-- El reporte de movimientos se cargará con JavaScript -->
+                </div>
+            </section>
+
+            <!-- Categories Report Section -->
+            <section class="report-section" aria-labelledby="categories-report-title">
+                <header class="section-header">
+                    <h2 id="categories-report-title">Reporte por Categorías</h2>
+                </header>
+                <div class="report-content" id="categoryReport">
+                    <!-- El reporte por categorías se cargará con JavaScript -->
+                </div>
+            </section>
+
+            <!-- Low Stock Report Section -->
+            <section class="report-section" aria-labelledby="low-stock-report-title">
+                <header class="section-header">
+                    <h2 id="low-stock-report-title">Reporte de Stock Bajo</h2>
+                </header>
+                <div class="report-content" id="lowStockReport">
+                    <!-- El reporte de stock bajo se cargará con JavaScript -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/reportes.js"></script>
+</body>
+</html>

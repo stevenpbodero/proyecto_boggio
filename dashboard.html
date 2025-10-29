@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Panel principal del sistema de inventario">
+    <title>Dashboard - InventarioPRO</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Navigation -->
+        <nav class="sidebar" aria-label="Navegación principal">
+            <header class="sidebar-header">
+                <h2>📦 InventarioPRO</h2>
+                <p id="currentUser">Administrador</p>
+            </header>
+            
+            <ul class="sidebar-menu">
+                <li class="active"><a href="dashboard.html" aria-current="page">🏠 Dashboard</a></li>
+                <li><a href="productos.html">📋 Productos</a></li>
+                <li><a href="categorias.html">🏷️ Categorías</a></li>
+                <li><a href="movimientos.html">🔄 Movimientos</a></li>
+                <li><a href="proveedores.html">👥 Proveedores</a></li>
+                <li><a href="reportes.html">📊 Reportes</a></li>
+                <li><a href="#" id="logoutBtn">🚪 Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Panel de Control</h1>
+                <div class="header-actions">
+                    <time id="currentDate" datetime=""></time>
+                </div>
+            </header>
+
+            <!-- Stats Section -->
+            <section class="stats-section" aria-labelledby="stats-title">
+                <h2 id="stats-title" class="visually-hidden">Estadísticas del sistema</h2>
+                
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <div class="stat-icon" aria-hidden="true">📦</div>
+                        <div class="stat-info">
+                            <h3 id="totalProducts">0</h3>
+                            <p>Total Productos</p>
+                        </div>
+                    </article>
+                    
+                    <article class="stat-card">
+                        <div class="stat-icon" aria-hidden="true">⚠️</div>
+                        <div class="stat-info">
+                            <h3 id="lowStockProducts">0</h3>
+                            <p>Stock Bajo</p>
+                        </div>
+                    </article>
+                    
+                    <article class="stat-card">
+                        <div class="stat-icon" aria-hidden="true">📥</div>
+                        <div class="stat-info">
+                            <h3 id="todayMovements">0</h3>
+                            <p>Movimientos Hoy</p>
+                        </div>
+                    </article>
+                    
+                    <article class="stat-card">
+                        <div class="stat-icon" aria-hidden="true">👥</div>
+                        <div class="stat-info">
+                            <h3 id="totalSuppliers">0</h3>
+                            <p>Proveedores</p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Recent Activity Section -->
+            <section class="dashboard-section" aria-labelledby="recent-activity-title">
+                <header class="section-header">
+                    <h2 id="recent-activity-title">Actividad Reciente</h2>
+                </header>
+                <div class="recent-activity" id="recentActivity">
+                    <!-- Las actividades se cargarán con JavaScript -->
+                </div>
+            </section>
+
+            <!-- Low Stock Alerts Section -->
+            <section class="dashboard-section" aria-labelledby="alerts-title">
+                <header class="section-header">
+                    <h2 id="alerts-title">Alertas de Stock Bajo</h2>
+                </header>
+                <div class="alert-list" id="lowStockAlerts">
+                    <!-- Las alertas se cargarán con JavaScript -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

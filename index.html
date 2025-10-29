@@ -3,294 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Gestión de Inventarios</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Sistema de Control de Inventario para negocios">
+    <title>Inventario - Iniciar Sesión</title>
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div id="app">
-        <!-- Pantalla de Login -->
-        <div id="login-screen" class="screen active">
-            <div class="login-container">
-                <h1>Sistema de Inventarios</h1>
-                <form id="login-form">
-                    <div class="form-group">
-                        <label for="username">Usuario:</label>
-                        <input type="text" id="username" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Contraseña:</label>
-                        <input type="password" id="password" required>
-                    </div>
-                    <button type="submit">Iniciar Sesión</button>
-                </form>
-                <p>¿No tienes cuenta? <a href="#" id="register-link">Regístrate aquí</a></p>
-            </div>
-        </div>
-
-        <!-- Pantalla de Registro -->
-        <div id="register-screen" class="screen">
-            <div class="login-container">
-                <h1>Registro de Usuario</h1>
-                <form id="register-form">
-                    <div class="form-group">
-                        <label for="reg-username">Usuario:</label>
-                        <input type="text" id="reg-username" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-password">Contraseña:</label>
-                        <input type="password" id="reg-password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-confirm">Confirmar Contraseña:</label>
-                        <input type="password" id="reg-confirm" required>
-                    </div>
-                    <button type="submit">Registrarse</button>
-                </form>
-                <p>¿Ya tienes cuenta? <a href="#" id="login-link">Inicia sesión aquí</a></p>
-            </div>
-        </div>
-
-        <!-- Pantalla Principal -->
-        <div id="main-screen" class="screen">
-            <header>
-                <h1>Sistema de Gestión de Inventarios</h1>
-                <div class="user-info">
-                    <span id="user-display">Usuario</span>
-                    <button id="logout-btn">Cerrar Sesión</button>
-                </div>
+    <main class="login-container">
+        <section class="login-card" aria-labelledby="login-title">
+            <header class="logo">
+                <h1 id="login-title">📦 InventarioPRO</h1>
+                <p>Sistema de Control de Inventario</p>
             </header>
-
-            <nav>
-                <ul>
-                    <li><a href="#" class="nav-link active" data-target="dashboard">Dashboard</a></li>
-                    <li><a href="#" class="nav-link" data-target="productos">Gestión de Productos</a></li>
-                    <li><a href="#" class="nav-link" data-target="entradas">Entrada de Productos</a></li>
-                    <li><a href="#" class="nav-link" data-target="salidas">Salida de Productos</a></li>
-                    <li><a href="#" class="nav-link" data-target="historial">Historial</a></li>
-                </ul>
-            </nav>
-
-            <main>
-                <!-- Dashboard -->
-                <section id="dashboard" class="content-section active">
-                    <h2>Dashboard</h2>
-                    <div class="stats-container">
-                        <div class="stat-card">
-                            <h3>Total Productos</h3>
-                            <p id="total-productos">0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h3>Stock Bajo</h3>
-                            <p id="stock-bajo">0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h3>Entradas Hoy</h3>
-                            <p id="entradas-hoy">0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h3>Salidas Hoy</h3>
-                            <p id="salidas-hoy">0</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Gestión de Productos -->
-                <section id="productos" class="content-section">
-                    <h2>Gestión de Productos</h2>
-                    <div class="section-actions">
-                        <button id="btn-nuevo-producto" class="btn-primary">Nuevo Producto</button>
-                    </div>
-                    
-                    <div class="search-container">
-                        <input type="text" id="buscar-producto" placeholder="Buscar producto...">
-                        <button id="btn-buscar">Buscar</button>
-                    </div>
-                    
-                    <table id="tabla-productos">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Categoría</th>
-                                <th>Tipo</th>
-                                <th>Stock</th>
-                                <th>Stock Mínimo</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="productos-body">
-                            <!-- Los productos se cargarán aquí dinámicamente -->
-                        </tbody>
-                    </table>
-                </section>
-
-                <!-- Entrada de Productos -->
-                <section id="entradas" class="content-section">
-                    <h2>Entrada de Productos</h2>
-                    <form id="form-entrada">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="proveedor">Proveedor:</label>
-                                <input type="text" id="proveedor" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="producto-entrada">Producto:</label>
-                                <select id="producto-entrada" required>
-                                    <option value="">Seleccionar producto</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="cantidad-entrada">Cantidad:</label>
-                                <input type="number" id="cantidad-entrada" min="1" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="fecha-entrada">Fecha:</label>
-                                <input type="date" id="fecha-entrada" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn-primary">Registrar Entrada</button>
-                    </form>
-                    
-                    <h3>Órdenes de Compra</h3>
-                    <table id="tabla-ordenes">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Proveedor</th>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th>Fecha</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ordenes-body">
-                            <!-- Las órdenes se cargarán aquí dinámicamente -->
-                        </tbody>
-                    </table>
-                </section>
-
-                <!-- Salida de Productos -->
-                <section id="salidas" class="content-section">
-                    <h2>Salida de Productos</h2>
-                    <form id="form-salida">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="tipo-salida">Tipo de Salida:</label>
-                                <select id="tipo-salida" required>
-                                    <option value="">Seleccionar tipo</option>
-                                    <option value="venta">Venta</option>
-                                    <option value="transferencia">Transferencia</option>
-                                    <option value="consumo">Consumo Interno</option>
-                                    <option value="devolucion">Devolución</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="producto-salida">Producto:</label>
-                                <select id="producto-salida" required>
-                                    <option value="">Seleccionar producto</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="cantidad-salida">Cantidad:</label>
-                                <input type="number" id="cantidad-salida" min="1" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="fecha-salida">Fecha:</label>
-                                <input type="date" id="fecha-salida" required>
-                            </div>
-                        </div>
+            
+            <article class="login-content">
+                <form id="loginForm" class="login-form">
+                    <fieldset>
+                        <legend class="visually-hidden">Credenciales de acceso</legend>
+                        
                         <div class="form-group">
-                            <label for="autorizacion-salida">Autorización:</label>
-                            <input type="text" id="autorizacion-salida" required>
+                            <label for="username">Usuario:</label>
+                            <input type="text" id="username" name="username" required aria-required="true">
                         </div>
-                        <button type="submit" class="btn-primary">Registrar Salida</button>
-                    </form>
-                </section>
-
-                <!-- Historial de Movimientos -->
-                <section id="historial" class="content-section">
-                    <h2>Historial de Movimientos</h2>
-                    <div class="filter-container">
+                        
                         <div class="form-group">
-                            <label for="filtro-fecha">Filtrar por fecha:</label>
-                            <input type="date" id="filtro-fecha">
+                            <label for="password">Contraseña:</label>
+                            <input type="password" id="password" name="password" required aria-required="true">
                         </div>
-                        <div class="form-group">
-                            <label for="filtro-tipo">Filtrar por tipo:</label>
-                            <select id="filtro-tipo">
-                                <option value="">Todos</option>
-                                <option value="entrada">Entrada</option>
-                                <option value="salida">Salida</option>
-                            </select>
-                        </div>
-                        <button id="btn-filtrar">Filtrar</button>
-                    </div>
-                    
-                    <table id="tabla-historial">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Producto</th>
-                                <th>Tipo</th>
-                                <th>Cantidad</th>
-                                <th>Usuario</th>
-                            </tr>
-                        </thead>
-                        <tbody id="historial-body">
-                            <!-- El historial se cargará aquí dinámicamente -->
-                        </tbody>
-                    </table>
-                </section>
-            </main>
-        </div>
-    </div>
-
-    <!-- Modal para Productos -->
-    <div id="modal-producto" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="modal-titulo">Nuevo Producto</h2>
-            <form id="form-producto">
-                <input type="hidden" id="producto-id">
-                <div class="form-group">
-                    <label for="producto-nombre">Nombre:</label>
-                    <input type="text" id="producto-nombre" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="producto-categoria">Categoría:</label>
-                        <input type="text" id="producto-categoria" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="producto-tipo">Tipo:</label>
-                        <input type="text" id="producto-tipo" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="producto-stock">Stock Inicial:</label>
-                        <input type="number" id="producto-stock" min="0" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="producto-stock-minimo">Stock Mínimo:</label>
-                        <input type="number" id="producto-stock-minimo" min="0" required>
-                    </div>
-                </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn-primary">Guardar</button>
-                    <button type="button" class="btn-secondary" id="btn-cancelar">Cancelar</button>
-                </div>
-            </form>
-        </div>
-    </div>
+                        
+                        <button type="submit" class="btn-primary">Iniciar Sesión</button>
+                    </fieldset>
+                </form>
+                
+                <aside class="demo-accounts" aria-label="Cuentas de demostración">
+                    <h2>Cuentas de demo:</h2>
+                    <dl>
+                        <dt>Administrador:</dt>
+                        <dd>Usuario: <strong>admin</strong> / Contraseña: <strong>123456</strong></dd>
+                        
+                        <dt>Usuario General:</dt>
+                        <dd>Usuario: <strong>user</strong> / Contraseña: <strong>123456</strong></dd>
+                    </dl>
+                </aside>
+            </article>
+        </section>
+    </main>
 
     <script src="js/auth.js"></script>
-    <script src="js/productos.js"></script>
-    <script src="js/movimientos.js"></script>
-    <script src="js/app.js"></script>
 </body>
 </html>
