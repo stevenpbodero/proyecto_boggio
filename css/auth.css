@@ -13,7 +13,7 @@
     border-radius: 15px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px;
+    max-width: 450px;
     animation: cardSlideIn 0.5s ease;
 }
 
@@ -61,7 +61,8 @@
     font-weight: 500;
 }
 
-.login-form input {
+.login-form input,
+.login-form select {
     width: 100%;
     padding: 12px 15px;
     border: 2px solid #e1e5e9;
@@ -70,39 +71,56 @@
     transition: border-color 0.3s ease;
 }
 
-.login-form input:focus {
+.login-form input:focus,
+.login-form select:focus {
     outline: none;
     border-color: #3498db;
     box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
-.demo-accounts {
-    margin-top: 25px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    font-size: 0.85rem;
+.form-help {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.8rem;
     color: #666;
-    border-left: 4px solid #3498db;
 }
 
-.demo-accounts h2 {
-    margin-bottom: 10px;
-    font-size: 1rem;
-    color: #333;
+.btn-block {
+    width: 100%;
+    display: block;
 }
 
-.demo-accounts dl {
-    display: grid;
-    gap: 8px;
+.auth-links {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #e1e5e9;
 }
 
-.demo-accounts dt {
-    font-weight: 600;
-    color: #333;
+.auth-link {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 500;
 }
 
-.demo-accounts dd {
-    margin-left: 0;
-    color: #666;
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para validación */
+.input-error {
+    border-color: #e74c3c !important;
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: block;
+}
+
+.success-message {
+    color: #27ae60;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: block;
 }

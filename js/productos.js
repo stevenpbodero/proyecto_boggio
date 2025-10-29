@@ -9,13 +9,24 @@ class ProductManager {
     }
 
     async init() {
+        console.log('Inicializando ProductManager...');
+        
+        // VERIFICACIÓN DE AUTENTICACIÓN - AGREGADO
+        if (!authSystem || !authSystem.getCurrentUser()) {
+            console.warn('Usuario no autenticado, redirigiendo a login...');
+            window.location.href = 'index.html';
+            return;
+        }
+
         await this.loadData();
         this.loadProductsTable();
         this.loadCategoryFilter();
         this.loadProductFormCategories();
         this.loadProductFormSuppliers();
         this.setupEventListeners();
+        console.log('ProductManager inicializado correctamente');
     }
+
 
     // Cargar datos
     async loadData() {

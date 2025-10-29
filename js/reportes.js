@@ -10,10 +10,21 @@ class ReportManager {
     }
 
     async init() {
+        console.log('Inicializando ReportManager...');
+        
+        // VERIFICACIÓN DE AUTENTICACIÓN - AGREGADO
+        if (!authSystem || !authSystem.getCurrentUser()) {
+            console.warn('Usuario no autenticado, redirigiendo a login...');
+            window.location.href = 'index.html';
+            return;
+        }
+
         await this.loadData();
         this.generateReports();
         this.setupEventListeners();
+        console.log('ReportManager inicializado correctamente');
     }
+
 
     // Cargar datos
     async loadData() {

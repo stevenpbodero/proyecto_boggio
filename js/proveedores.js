@@ -8,10 +8,21 @@ class SupplierManager {
     }
 
     async init() {
+        console.log('Inicializando SupplierManager...');
+        
+        // VERIFICACIÓN DE AUTENTICACIÓN - AGREGADO
+        if (!authSystem || !authSystem.getCurrentUser()) {
+            console.warn('Usuario no autenticado, redirigiendo a login...');
+            window.location.href = 'index.html';
+            return;
+        }
+
         await this.loadData();
         this.loadSuppliersTable();
         this.setupEventListeners();
+        console.log('SupplierManager inicializado correctamente');
     }
+
 
     // Cargar datos
     async loadData() {

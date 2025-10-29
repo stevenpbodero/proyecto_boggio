@@ -14,7 +14,8 @@
         <nav class="sidebar" aria-label="Navegación principal">
             <header class="sidebar-header">
                 <h2>📦 InventarioPRO</h2>
-                <p id="currentUser">Administrador</p>
+                <p id="currentUser">Cargando...</p>
+                <small id="userRole" class="user-role"></small>
             </header>
             
             <ul class="sidebar-menu">
@@ -82,7 +83,10 @@
                     <h2 id="recent-activity-title">Actividad Reciente</h2>
                 </header>
                 <div class="recent-activity" id="recentActivity">
-                    <!-- Las actividades se cargarán con JavaScript -->
+                    <div class="empty-state">
+                        <div class="icon">📊</div>
+                        <p>Cargando actividad...</p>
+                    </div>
                 </div>
             </section>
 
@@ -92,7 +96,10 @@
                     <h2 id="alerts-title">Alertas de Stock Bajo</h2>
                 </header>
                 <div class="alert-list" id="lowStockAlerts">
-                    <!-- Las alertas se cargarán con JavaScript -->
+                    <div class="empty-state">
+                        <div class="icon">📋</div>
+                        <p>Cargando alertas...</p>
+                    </div>
                 </div>
             </section>
         </main>

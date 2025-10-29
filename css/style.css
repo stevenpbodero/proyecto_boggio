@@ -68,6 +68,13 @@ body {
 .sidebar-header p {
     font-size: 0.9rem;
     opacity: 0.8;
+    margin-bottom: 5px;
+}
+
+.user-role {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    text-transform: capitalize;
 }
 
 .sidebar-menu {

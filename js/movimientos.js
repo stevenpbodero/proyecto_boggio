@@ -8,10 +8,26 @@ class MovementManager {
     }
 
     async init() {
+        console.log('Inicializando MovementManager...');
+        
+        // VERIFICACIÓN DE AUTENTICACIÓN - AGREGADO
+        if (!authSystem || !authSystem.getCurrentUser()) {
+            console.warn('Usuario no autenticado, redirigiendo a login...');
+            window.location.href = 'index.html';
+            return;
+        }
+
         await this.loadData();
         this.loadMovementsTable();
         this.loadProductSelect();
         this.setupEventListeners();
+        console.log('MovementManager inicializado correctamente');
+    }
+
+    // Cargar datos
+    async loadData() {
+        this.movements = Utils.loadFromStorage('inventory_movements') || [];
+        this.products = Utils.loadFromStorage('inventory_products') || [];
     }
 
     // Cargar datos
