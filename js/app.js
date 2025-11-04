@@ -230,7 +230,7 @@ class InventoryApp {
             console.log('Evento dataUpdated recibido, actualizando dashboard...');
             this.loadData().then(() => {
                 this.setupDashboard();
-                Utils.showNotification('Datos actualizados', 'success');
+                Utils.showNotification('Dato actualizado', 'success');
             });
         });
 
